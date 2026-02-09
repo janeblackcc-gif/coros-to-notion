@@ -1,0 +1,205 @@
+{
+  "metadata": {
+    "project_name": "coros-to-notion",
+    "scan_timestamp": "2026-02-09T10:25:49Z",
+    "scanner_version": "adaptive-architect-1.0",
+    "project_root": "c:\\Users\\1\\Desktop\\coros-to-notion"
+  },
+  "project_summary": {
+    "description": "Garmin to Notion Integration - 自动同步 Garmin（中国区）数据到 Notion",
+    "primary_language": "Python",
+    "total_files_estimated": 11,
+    "scanned_files": 11,
+    "coverage_percentage": 100,
+    "modules_detected": 1,
+    "is_monorepo": false
+  },
+  "modules": [
+    {
+      "module_path": "/",
+      "module_name": "root",
+      "module_type": "python-scripts",
+      "language": "Python",
+      "description": "核心同步脚本集合：活动、记录、步数、睡眠数据同步",
+      "entry_points": [
+        "garmin-activities.py",
+        "personal-records.py",
+        "daily-steps.py",
+        "sleep-data.py"
+      ],
+      "key_files": {
+        "entry": [
+          "garmin-activities.py",
+          "personal-records.py",
+          "daily-steps.py",
+          "sleep-data.py"
+        ],
+        "config": [
+          "requirements.txt",
+          ".github/workflows/sync_garmin_to_notion.yml"
+        ],
+        "docs": [
+          "README.md",
+          "如何利用 GitHub Actions 自动同步 Garmin (中国区) 数据到 Notion.txt"
+        ],
+        "tests": []
+      },
+      "dependencies": {
+        "runtime": [
+          "garminconnect>=0.2.19",
+          "notion-client==2.2.1",
+          "pytz==2024.1",
+          "datetime==5.5",
+          "python-dotenv",
+          "withings-sync==4.2.4",
+          "lxml>=4.6.0"
+        ],
+        "dev": []
+      },
+      "environment_variables": [
+        "GARMIN_EMAIL",
+        "GARMIN_PASSWORD",
+        "NOTION_TOKEN",
+        "NOTION_DB_ID",
+        "NOTION_PR_DB_ID",
+        "NOTION_STEPS_DB_ID",
+        "NOTION_SLEEP_DB_ID",
+        "GARMIN_ACTIVITIES_FETCH_LIMIT",
+        "TZ"
+      ],
+      "data_models": {
+        "garmin_activity": {
+          "fields": [
+            "startTimeGMT",
+            "activityType",
+            "activityName",
+            "distance",
+            "duration",
+            "calories",
+            "averageSpeed",
+            "avgPower",
+            "maxPower",
+            "aerobicTrainingEffect",
+            "anaerobicTrainingEffect",
+            "pr",
+            "favorite"
+          ]
+        },
+        "personal_record": {
+          "fields": [
+            "typeId",
+            "prStartTimeGmtFormatted",
+            "activityType",
+            "value"
+          ]
+        },
+        "daily_steps": {
+          "fields": [
+            "calendarDate",
+            "totalSteps",
+            "stepGoal",
+            "totalDistance"
+          ]
+        },
+        "sleep_data": {
+          "fields": [
+            "calendarDate",
+            "sleepStartTimestampGMT",
+            "sleepEndTimestampGMT",
+            "deepSleepSeconds",
+            "lightSleepSeconds",
+            "remSleepSeconds",
+            "awakeSleepSeconds",
+            "restingHeartRate"
+          ]
+        }
+      },
+      "interfaces": {
+        "external_apis": [
+          "Garmin Connect API (via garminconnect library)",
+          "Notion API (via notion-client library)"
+        ],
+        "cli_commands": [
+          "python garmin-activities.py",
+          "python personal-records.py",
+          "python daily-steps.py",
+          "python sleep-data.py"
+        ]
+      },
+      "test_coverage": {
+        "has_tests": false,
+        "test_directory": null,
+        "coverage_estimated": 0
+      },
+      "quality_tools": {
+        "linter": null,
+        "formatter": null,
+        "type_checker": null
+      },
+      "coverage_gaps": [
+        "无单元测试",
+        "无集成测试",
+        "类型注解不完整",
+        "错误处理不足",
+        "时区硬编码问题",
+        "缺少日志系统"
+      ]
+    }
+  ],
+  "architecture": {
+    "pattern": "Script-based automation",
+    "layers": [
+      "Data Fetching (Garmin Connect API)",
+      "Data Transformation (Formatters & Mappers)",
+      "Data Writing (Notion API)",
+      "Scheduling (GitHub Actions)"
+    ],
+    "deployment": "GitHub Actions (serverless)",
+    "data_flow": "Garmin → Python Scripts → Notion"
+  },
+  "ignore_rules": {
+    "source": ".gitignore",
+    "patterns": [
+      "__pycache__/",
+      "*.py[cod]",
+      ".env",
+      ".venv/",
+      "venv/",
+      "*.log",
+      ".idea/",
+      ".vscode/",
+      "build/",
+      "dist/",
+      "*.egg-info/",
+      ".pytest_cache/",
+      ".coverage"
+    ]
+  },
+  "coverage_report": {
+    "total_files": 11,
+    "scanned_files": 11,
+    "skipped_files": 0,
+    "ignored_directories": [
+      ".git",
+      "__pycache__",
+      ".venv",
+      "venv"
+    ],
+    "large_files_skipped": [],
+    "truncated": false,
+    "reason_for_stop": "Complete scan - all files indexed",
+    "completion_percentage": 100
+  },
+  "next_steps": {
+    "recommendations": [
+      "添加单元测试：使用 pytest + pytest-mock 测试格式化函数和数据转换逻辑",
+      "统一时区配置：将硬编码的时区字符串提取到环境变量",
+      "增强错误处理：添加 API 调用重试机制和详细日志",
+      "提取公共模块：创建 utils/ 目录统一管理客户端初始化和工具函数",
+      "完善类型注解：为所有函数添加类型提示，使用 mypy 进行静态检查",
+      "引入日志系统：使用 logging 模块替代 print 语句"
+    ],
+    "priority_files_to_review": [],
+    "gaps_to_fill": []
+  }
+}
